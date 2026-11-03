@@ -1,0 +1,63 @@
+MPPT SOLAR DASHBOARD (PYTHON BACKEND) - HOW TO RUN ON WINDOWS
+=============================================================
+
+STEP 0 (one time) - Install Python 3.10 or newer
+   https://www.python.org/downloads/
+   IMPORTANT: tick  [x] "Add python.exe to PATH"  in the installer.
+   Check in CMD:
+      python --version
+
+STEP 1 - Extract the zip, e.g. to  D:\mppt-solar-python
+
+STEP 2 - Open Command Prompt (CMD) and go to the folder
+      D:
+      cd D:\mppt-solar-python
+
+STEP 3 - Create the virtual environment (one time)
+      python -m venv venv
+
+STEP 4 - Activate the venv (every time you open a new CMD)
+      venv\Scripts\activate
+   Now the prompt starts with (venv)
+
+STEP 5 - Install requirements (one time, needs internet)
+        python -m venv venv
+
+STEP 6 - Run the dashboard
+      python app.py
+
+   The window prints something like:
+      This computer      : http://127.0.0.1:5000
+      Phone / other PC   : http://192.168.1.5:5000   (same Wi-Fi)
+   The browser opens automatically. Otherwise copy one of those URLs into the browser.
+
+Stop the server: Ctrl + C
+
+NEXT TIME (already installed):
+      D:
+      cd D:\mppt-solar-python
+      venv\Scripts\activate
+      python app.py
+   (or just double-click  run_windows.bat)
+
+PHONE NOT OPENING THE IP?
+   Windows Firewall may block it. When the "Allow access" popup appears, tick
+   Private networks and click Allow. Phone and PC must be on the same Wi-Fi.
+
+SETTINGS (.env file - open with Notepad)
+   THINGSPEAK_CHANNEL_ID=3534436
+   THINGSPEAK_READ_API_KEY=...      (already filled)
+   PORT=5000                         (change if 5000 is busy, e.g. 8000)
+   OPEN_BROWSER=1                    (0 = don't open browser automatically)
+   After editing .env, stop (Ctrl+C) and run python app.py again.
+
+TROUBLESHOOTING
+   'python' is not recognized        -> reinstall Python with "Add to PATH" ticked, reopen CMD
+                                        (or use:  py -m venv venv)
+   activate gives a script error     -> you are in PowerShell; run:
+                                        Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+                                        then  venv\Scripts\Activate.ps1   (or just use CMD)
+   Port already in use               -> set PORT=8000 in .env
+   Badge shows "Stale"               -> ESP32 is not uploading to ThingSpeak
+   "access denied (-1)"              -> wrong Read API Key in .env
+   Forecast "Not enough recent data" -> needs about 3 hours of recent uploads
